@@ -1,0 +1,15 @@
+.header__right-side {
+  display: flex;
+  align-items: center;
+}
+
+.header__username {
+  margin-right: 30px;
+  color: var(--primary-color);
+}
+
+.result {
+  color: white;
+  font-weight: bold;
+  margin: 0 30px;
+}

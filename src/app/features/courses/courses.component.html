@@ -1,0 +1,10 @@
+<app-header>
+  <div class="header__right-side">
+    <div class="header__username">Maksim Zhuk</div>
+    <app-button text="Help" style="margin-right: 20px" (click)="openHelpModal()"></app-button>
+    <app-button text="Login"></app-button>
+  </div>
+</app-header>
+<p class="result">Help modal result: {{modalResult ? "ok" : "cancel"}}. If you would like to change result press button "help"</p>
+<app-course-list [courses]="courses" (removeCourse)="onRemoveCourse($event)"></app-course-list>
+<app-modal *ngIf="isHelpModalOpened" [(modalResult)]="modalResult" title="Help" message="Sorry, the development is in progress." okButtonText="Ok" cancelButtonText="Cancel" [(isModalVisible)]="isHelpModalOpened"></app-modal>
