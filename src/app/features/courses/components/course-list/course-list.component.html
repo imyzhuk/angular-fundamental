@@ -1,0 +1,7 @@
+<ul class="card">
+  <app-course-card *ngFor="let course of courses; let index = index" [course]="course" [editable]="course.editable">
+    <app-button text="Show course" myStyle="margin-bottom: 10px;"></app-button>
+    <app-button (click)="onRemoveCourse(index)" class="remove" iconName="trash-alt" text="Remove" myStyle="margin-bottom: 10px;"></app-button>
+    <app-button class="edit" text="Edit" myStyle="margin-bottom: 10px;" iconName="pen">Edit</app-button>
+  </app-course-card>
+</ul>

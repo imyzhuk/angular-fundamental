@@ -1,0 +1,4 @@
+<div class="search">
+  <input class="input" type="text" [placeholder]="placeholder" [(ngModel)]="searchResult" />
+  <app-button text="Search" (onClick)="onSearchButtonClick.emit(searchResult)"></app-button>
+</div>
