@@ -5,6 +5,10 @@
     <app-button text="Login"></app-button>
   </div>
 </app-header>
-<p class="result">Help modal result: {{modalResult ? "ok" : "cancel"}}. If you would like to change result press button "help"</p>
-<app-course-list [courses]="courses" (removeCourse)="onRemoveCourse($event)"></app-course-list>
 <app-modal *ngIf="isHelpModalOpened" [(modalResult)]="modalResult" title="Help" message="Sorry, the development is in progress." okButtonText="Ok" cancelButtonText="Cancel" [(isModalVisible)]="isHelpModalOpened"></app-modal>
+<!--<p class="result">Help modal result: {{modalResult ? "ok" : "cancel"}}. If you would like to change result press button "help"</p>-->
+<!--<app-course-list [courses]="courses" (removeCourse)="onRemoveCourse($event)"></app-course-list>-->
+<app-search placeholder="Search..." (onSearchButtonClick)="onSearchButtonClick($event)"></app-search>
+<app-login></app-login>
+<app-registration></app-registration>
+<app-course-form></app-course-form>

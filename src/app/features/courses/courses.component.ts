@@ -49,4 +49,8 @@ export class CoursesComponent implements OnInit {
   openHelpModal(){
     this.isHelpModalOpened = true;
   }
+
+  onSearchButtonClick(searchResult: string){
+    console.log("Search result: " + searchResult)
+  }
 }

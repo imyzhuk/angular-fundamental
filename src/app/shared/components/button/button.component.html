@@ -1,1 +1,1 @@
-<button class="button" style="background: {{color || 'var(--primary-color)'}};{{myStyle}}">{{text}} <fa-icon *ngIf="iconName" [icon]="iconName"></fa-icon></button>
+<button (click)="onClick.emit()" class="button" style="background: {{color || 'var(--primary-color)'}};{{myStyle}}">{{text}} <fa-icon *ngIf="iconName" [icon]="iconName"></fa-icon></button>

@@ -1,14 +1,14 @@
 <li class="card">
   <div class="card__wrapper">
-    <div class="card__duration" style="color: {{color}}">{{course.duration | transformDuration}}</div>
+    <div class="card__duration" style="color: {{color}}">{{course.duration | duration}}</div>
     <h3 class="card__title">
       {{course.title}}
     </h3>
     <div class="card__desc">
       {{course.desc}}
     </div>
-    <div class="card__date">{{course.creationDate | date: "dd.MM.yyyy"}}</div>
-    <div class="card__authors">{{course.authors?.join(", ")}}</div>
+    <div class="card__date">{{course.creationDate | creationDate}}</div>
+    <div class="card__authors">{{course.authors | stringJoiner}}</div>
     <div class="card__buttons">
       <ng-content></ng-content>
       <div *ngIf="editable" class="card__buttons-editable">

@@ -1,1 +1,8 @@
-<p>login works!</p>
+<form (submit)="onSubmit($event)" class="form">
+  <h2 class="title">Login</h2>
+  <app-input [(value)]="email" name="Email" errorMessage="Field length must be no less 10!"></app-input>
+  <app-input name="Password" type="password" [(value)]="password"></app-input>
+  <app-button text="Login" type="submit"></app-button>
+  <p>If u don't have an account u can</p>
+  <p>Registration</p>
+</form>
