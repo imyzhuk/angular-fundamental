@@ -1,0 +1,34 @@
+<div>
+  <div>
+    <label>{{name}}</label>
+  </div>
+  <input
+    *ngIf="name === 'Email'"
+    [(ngModel)]="value"
+    (ngModelChange)="onValueChange($event)"
+    [type]="type"
+    [placeholder]="placeholder"
+    class="input"
+    appEmailValidator
+    required />
+  <input
+    *ngIf="name !== 'Email' && name !== 'Password'"
+    [(ngModel)]="value"
+    (ngModelChange)="onValueChange($event)"
+    [type]="type"
+    [placeholder]="placeholder"
+    class="input"
+    required />
+  <input
+    *ngIf="name === 'Password'"
+    [(ngModel)]="value"
+    (ngModelChange)="onValueChange($event)"
+    [type]="type"
+    [placeholder]="placeholder"
+    appPasswordVisibility
+    class="input"
+    required />
+  <span class="span">
+    {{errorMessage? errorMessage : name + ' is required!'}}
+  </span>
+</div>

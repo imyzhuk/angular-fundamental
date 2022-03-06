@@ -1,0 +1,5 @@
+<app-course-card [course]="course" [editable]="editable" *ngIf="course">
+  <app-button text="Show course" myStyle="margin-bottom: 10px;" (onClick)="showCourse(course.id)"></app-button>
+  <app-button (click)="onRemoveCourse(course.id)" class="remove" iconName="trash-alt" text="Remove" myStyle="margin-bottom: 10px;"></app-button>
+  <app-button class="edit" text="Edit" myStyle="margin-bottom: 10px;" (onClick)="editCourse(course.id)" iconName="pen">Edit</app-button>
+</app-course-card>

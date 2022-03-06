@@ -1,0 +1,52 @@
+<form [formGroup]="form" novalidate (ngSubmit)="submit()" class="form">
+  <div>
+  <h2 class="title">Registration</h2>
+  <div class="field">
+    <label>Name</label>
+    <input class="input" name="name" formControlName="name" />
+
+    <div class="error"
+         *ngIf="form.controls['name'].invalid && form.controls['name'].touched">
+      {{form.controls['name'].errors?.['required']
+      ? "Email is required"
+      : "Email must be no less 6"}}
+    </div>
+  </div>
+  <div class="field">
+    <label>Email</label>
+    <input type="text" class="input" name="email" formControlName="email" />
+    <div class="error"
+         *ngIf="form.controls['email'].invalid && form.controls['email'].touched">
+      {{form.controls['email'].errors?.['required']
+        ? "Email is required"
+        : form.controls['email'].errors?.['forbiddenPattern']
+        ? "It's not email"
+        : "Email must be no less 10"
+      }}
+    </div>
+  </div>
+  <div class="field">
+    <label>Password</label>
+    <input class="input" name="password" formControlName="password" appPasswordVisibility />
+
+    <div class="error"
+         *ngIf="form.controls['password'].invalid && form.controls['password'].touched">
+      {{form.controls['password'].errors?.['required']
+        ? "Password is required!"
+        : "Password must be no less 6"
+      }}
+    </div>
+  </div>
+    <button [disabled]="form.invalid" class="button" style="background: var(--primary-color)">
+      Registration
+    </button>
+  <p>
+    If you have an account you can <br>
+    <a routerLink="/login">Login</a>
+  </p>
+  </div>
+  <div class="bears" *ngIf="isRegistrated">
+    <img src="assets/images/bears.gif" alt="bears">
+    <p>You are registered</p>
+  </div>
+</form>

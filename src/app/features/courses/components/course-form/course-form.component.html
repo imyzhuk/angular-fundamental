@@ -1,0 +1,60 @@
+<form [formGroup]="form" novalidate (ngSubmit)="submit()" class="form">
+  <div class="column">
+    <div class="field">
+      <label>Title</label>
+      <input class="input" name="title" formControlName="title" />
+
+      <div class="error"
+           *ngIf="form.controls['title'].invalid && form.controls['title'].touched">
+        Title is required!
+      </div>
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <input class="input" name="description" formControlName="description" />
+
+      <div class="error"
+           *ngIf="form.controls['description'].invalid && form.controls['description'].touched">
+        Description is required!
+      </div>
+    </div>
+  </div>
+  <div style="display: flex; justify-content: space-between" class="column">
+    <div>
+      <div class="field">
+        <label>Author name</label>
+        <input class="input" name="newAuthor" formControlName="newAuthor" />
+        <app-button text="Add author" (onClick)="addAuthor()" ></app-button>
+        <div class="error"
+             *ngIf="form.controls['newAuthor'].invalid && form.controls['newAuthor'].touched && (form.value.newAuthor !== '')">
+          Author name must consist of latin letters and numbers!
+        </div>
+      </div>
+      <div class="field">
+        <label>Duration</label>
+        <input class="input" name="duration" formControlName="duration" type="number"/>
+
+        <div class="error"
+             *ngIf="form.controls['duration'].invalid && form.controls['duration'].touched">
+          <span *ngIf="form.get('duration')?.hasError('required')">
+          Duration is required!
+          </span>
+          <span *ngIf="!form.get('duration')?.hasError('required')">
+          Duration must be no less 0
+          </span>
+        </div>
+      </div>
+    </div>
+    <div formArrayName="authors" class="author__list">
+      <h3>
+        Authors list
+      </h3>
+      <ul>
+        <li *ngFor="let author of authors['controls']; let i = index">
+          <input formControlName="{{i}}" class="author__item"/><app-button text="Delete author" (onClick)="deleteAuthor(i)"></app-button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <app-button [text]="submitButtonName" type="submit"></app-button>
+</form>

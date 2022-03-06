@@ -1,0 +1,10 @@
+<app-header>
+  <div class="header__right-side">
+    <div class="header__username" *ngIf="name">{{name}}</div>
+    <app-button text="Help" style="margin-right: 20px" (click)="openHelpModal()"></app-button>
+    <app-button [text]="isAuthorized ? 'Logout' : 'Login'" (onClick)="clickLoginIcon()"></app-button>
+  </div>
+</app-header>
+<app-modal *ngIf="isHelpModalOpened" [(modalResult)]="modalResult" title="Help" message="Sorry, the development is in progress." okButtonText="Ok" cancelButtonText="Cancel" [(isModalVisible)]="isHelpModalOpened"></app-modal>
+<app-preloader *ngIf="isLoading"></app-preloader>
+<router-outlet></router-outlet>

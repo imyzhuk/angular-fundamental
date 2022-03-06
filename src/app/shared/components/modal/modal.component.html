@@ -1,0 +1,13 @@
+<div class="popup">
+  <div class="popup__content">
+    <fa-icon [icon]="faSkullCrossbones" style="cursor: pointer" (click)="onCloseModal()"></fa-icon>
+    <h2 class="info__title">
+      {{title}}
+    </h2>
+    <p class="info__text">{{message}}</p>
+    <div class="info__buttons">
+      <app-button [text]="okButtonText" (click)="okButtonClick()"></app-button>
+      <app-button [text]="cancelButtonText" (click)="cancelButtonClick()"></app-button>
+    </div>
+  </div>
+</div>
