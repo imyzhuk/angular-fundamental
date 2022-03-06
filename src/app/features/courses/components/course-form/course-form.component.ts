@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {NameValidator} from "../../../../shared/directives/name-validator/name-validator.directive";
 import {NumberValidator} from "../../../../shared/directives";
+import {ActivatedRoute} from "@angular/router";
+import {CoursesFormType} from "../../../../models/course-types";
+import {AuthorsStoreService, CoursesStoreService} from "../../../../shared/services";
+import {UUID} from "uuid-generator-ts";
+import {Author} from "../../../../models/user-types";
 
 @Component({
   selector: 'app-course-form',
@@ -10,8 +15,22 @@ import {NumberValidator} from "../../../../shared/directives";
 })
 export class CourseFormComponent {
 
+  submitButtonName: string = ""
+
   form : FormGroup;
-  constructor(){
+  constructor(private route: ActivatedRoute,
+              private authorsStore: AuthorsStoreService,
+              private coursesStore: CoursesStoreService
+  ){
+    const coursesFormType = this.route.snapshot.url[1].path as CoursesFormType;
+    if(coursesFormType === "edit"){
+      this.submitButtonName = "Edit";
+    } else if (coursesFormType === 'add'){
+      this.submitButtonName = "Add";
+    }
+
+
+
     this.form = new FormGroup({
       title: new FormControl("", [
         Validators.required,
@@ -44,6 +63,24 @@ export class CourseFormComponent {
   }
 
   submit(){
-    console.log(this.form.value);
+    const courseId = new UUID().getDashFreeUUID();
+    const form = this.form.value;
+    this.authorsStore.addAuthors(form.authors)
+      .subscribe(
+        (authors => {
+          this.coursesStore.createCourse(
+            {
+              id: courseId,
+              authors: authors,
+              description: form.description,
+              duration: form.duration,
+              title: form.title,
+              creationDate: form.creationDate
+            }
+          )
+        })
+      ),
+      null,
+      () => this.authorsStore.isLoading$$.next(false)
   }
 }

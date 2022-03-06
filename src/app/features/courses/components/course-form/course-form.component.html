@@ -24,7 +24,7 @@
       <div class="field">
         <label>Author name</label>
         <input class="input" name="newAuthor" formControlName="newAuthor" />
-        <app-button type="button" text="Add author" (onClick)="addAuthor()" ></app-button>
+        <app-button text="Add author" (onClick)="addAuthor()" ></app-button>
         <div class="error"
              *ngIf="form.controls['newAuthor'].invalid && form.controls['newAuthor'].touched && (form.value.newAuthor !== '')">
           Author name must consist of latin letters and numbers!
@@ -56,4 +56,5 @@
       </ul>
     </div>
   </div>
+  <app-button [text]="submitButtonName" type="submit"></app-button>
 </form>

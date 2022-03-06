@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {CourseType} from "../../models/course-types";
+import {AuthorsService, AuthorsStoreService, CoursesService, CoursesStoreService} from "../../shared/services";
+import {Author} from "../../models/user-types";
+import {map, Observable, switchMap, tap} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
+import {UserStoreService} from "../user/services";
 
 @Component({
   selector: 'app-courses',
@@ -7,47 +12,50 @@ import {CourseType} from "../../models/course-types";
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
-  isHelpModalOpened: boolean = false;
-  modalResult: boolean | null = null;
 
-  courses: CourseType[] = [
-    {
-      title: "Angular",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dolor eius esse est exercitationem itaque laborum, omnis quae tempore velit. A consectetur debitis fugiat iste maxime porro quaerat veniam? Laudantium?\n",
-      creationDate: new Date(),
-      duration: 121,
-      authors: ["Alex"],
-      editable: true
-    },
-    {
-      title: "Angular",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dolor eius esse est exercitationem itaque laborum, omnis quae tempore velit. A consectetur debitis fugiat iste maxime porro quaerat veniam? Laudantium?\n",
-      creationDate: new Date(),
-      duration: 111,
-      authors: ["Alex", "Marat"],
-      editable: false
-    },
-    {
-      title: "Angular",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci dolor eius esse est exercitationem itaque laborum, omnis quae tempore velit. A consectetur debitis fugiat iste maxime porro quaerat veniam? Laudantium?\n",
-      creationDate: new Date(),
-      duration: 19,
-      authors: ["Alina", "Marat"],
-      editable: true
-    }
-  ]
+  courses: CourseType[] | undefined;
+  authors: Author[] | undefined;
+  isLoading: boolean = false
+  editable: boolean = false
 
-  constructor() { }
+  constructor(
+              private coursesService: CoursesService,
+              private authorsService: AuthorsService,
+              private coursesStoreService: CoursesStoreService,
+              private authorsStoreService: AuthorsStoreService,
+              private userStore: UserStoreService
+  ) {
+    this.coursesStoreService.isLoading$.subscribe(isLoading => this.isLoading = isLoading);
+    this.authorsStoreService.isLoading$.subscribe(isLoading => this.isLoading = isLoading);
 
-  ngOnInit(): void {
+    this.coursesStoreService.courses$
+      .pipe(
+        switchMap((courses) => this.authorsStoreService.authors$
+          .pipe(
+            map(authors => {
+              return courses = courses.map(course => {
+                const convertedAuthorsName = course.authors?.filter(authorName => authors.some(author => author.name === authorName));
+                course.authors = course.authors.map(author => authors.find(el => el.id === author)?.name || "");
+                course.authors = course.authors.concat(convertedAuthorsName);
+                course.authors = course.authors?.filter(author => author !== "");
+                return course;
+              })
+            })
+          )
+        )
+      )
+      .subscribe(courses => this.courses = courses)
+
+    this.userStore.isAdmin$
+      .subscribe(isAdmin => this.editable = isAdmin)
+
   }
 
-  onRemoveCourse(removedCourseIndex: number){
-    this.courses.splice(removedCourseIndex, 1);
+  ngOnInit() {
   }
 
-  openHelpModal(){
-    this.isHelpModalOpened = true;
+  onRemoveCourse(removedCourseIndex: string){
+    this.coursesStoreService.deleteCourse(removedCourseIndex)
   }
 
   onSearchButtonClick(searchResult: string){

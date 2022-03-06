@@ -12,13 +12,15 @@ import {
 } from "./components";
 import {EmailValidatorDirective, PasswordVisibilityDirective} from "./directives";
 import {CreationDatePipe, DurationPipe, StringJoinerImpurePipe, StringJoinerPipe} from "./pipes";
+import {AuthorsService} from "./services";
+import { PreloaderComponent } from './components/preloader/preloader.component';
 
-const components = [HeaderComponent, ButtonComponent, InfoComponent, SearchComponent,ModalComponent, InputComponent];
+const components = [HeaderComponent, PreloaderComponent, ButtonComponent, InfoComponent, SearchComponent,ModalComponent, InputComponent];
 const directives = [EmailValidatorDirective, PasswordVisibilityDirective];
 const pipes = [DurationPipe, CreationDatePipe, StringJoinerPipe, StringJoinerImpurePipe];
 
 @NgModule({
-  declarations: [...components, ...directives, ...pipes],
+  declarations: [...components, ...directives, ...pipes, PreloaderComponent],
   imports: [
     CommonModule,
     FontAwesomeModule,

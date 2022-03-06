@@ -10,6 +10,7 @@ import {far, IconName} from '@fortawesome/free-regular-svg-icons';
 })
 export class ButtonComponent implements OnInit {
   @Input() text?: string
+  @Input() type: string = "button"
   @Input() iconName?: IconName
   @Input() color?: string
   @Input() myStyle?: string

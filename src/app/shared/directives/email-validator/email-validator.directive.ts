@@ -13,6 +13,6 @@ import {AbstractControl, NG_VALIDATORS, ValidationErrors, Validator} from "@angu
 })
 export class EmailValidatorDirective implements Validator {
   validate(control: AbstractControl): ValidationErrors | null {
-    return control.value.length < 10? {emailInvalid: true} : null;
+    return control.value?.length < 10? {emailInvalid: true} : null;
   }
 }

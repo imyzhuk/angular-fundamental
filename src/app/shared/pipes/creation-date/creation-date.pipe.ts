@@ -7,6 +7,9 @@ import { DatePipe } from '@angular/common';
 export class CreationDatePipe extends DatePipe implements PipeTransform {
 
   override transform(value: any): any {
+    if(typeof value === "string"){
+      value = new Date(value);
+    }
     return super.transform(value, "dd.MM.yyyy");
   }
 

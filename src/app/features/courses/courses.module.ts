@@ -7,6 +7,7 @@ import {CourseFormComponent, CourseListComponent} from "./components";
 import {LoginModule} from "../login/login.module";
 import {RegistrationModule} from "../registration/registration.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {CoursesRoutingModule} from "./courses-routing.module";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
       LoginModule,
       RegistrationModule,
       FormsModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      CoursesRoutingModule
     ],
   exports: [
     CoursesComponent

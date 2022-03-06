@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class StringJoinerPipe implements PipeTransform {
 
   transform(arr: string[], separator: any = ", "): string {
-    return arr.join(separator);
+    return arr ? arr.join(separator) : arr;
   }
 
 }

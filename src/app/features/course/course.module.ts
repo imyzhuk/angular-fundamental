@@ -10,7 +10,8 @@ import {SharedModule} from "../../shared/shared.module";
     CourseCardComponent
   ],
   exports: [
-    CourseCardComponent
+    CourseCardComponent,
+    CourseComponent
   ],
   imports: [
     CommonModule,
