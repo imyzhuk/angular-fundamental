@@ -1,0 +1,30 @@
+.form {
+  display: flex;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.bears {
+  height: 230px;
+  margin-left: 50px;
+
+  img {
+    height: 100%;
+  }
+}
+
+.error-message {
+  color: red;
+  font-size: 20px;
+  position: relative;
+  padding: 20px;
+  width: 100%;
+
+  p {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

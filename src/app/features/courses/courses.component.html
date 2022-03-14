@@ -1,0 +1,5 @@
+<app-search placeholder="Search..." (onSearchButtonClick)="onSearchButtonClick($event)"></app-search>
+<app-course-list *ngIf="courses" [courses]="courses" (removeCourse)="onRemoveCourse($event)"></app-course-list>
+<div class="add-course-block" [routerLink]="'/courses/add'" *ngIf="editable" style="cursor: pointer">
+  Add course
+</div>
