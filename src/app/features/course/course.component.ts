@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CourseType} from "../../models/course-types";
 import {AuthorsStoreService, CoursesStoreService} from "../../shared/services";
 import {Author} from "../../models/user-types";
-import {map, switchMap, tap} from "rxjs";
+import {map, switchMap} from "rxjs";
 import {UserStoreService} from "../user/services";
+import {UserFacade} from "../../user/store/user.facade";
 
 @Component({
   selector: 'app-course',
@@ -12,21 +13,21 @@ import {UserStoreService} from "../user/services";
   styleUrls: ['./course.component.scss']
 })
 export class CourseComponent implements OnInit {
-  private id: string = ""
   courses: CourseType[] | undefined;
   authors: Author[] | undefined;
   isLoading: boolean = false
   editable: boolean = false
-
   @Input() course! : CourseType
+  private id: string = ""
 
   constructor(private route: ActivatedRoute,
               private coursesStoreService: CoursesStoreService,
               private authorsStoreService: AuthorsStoreService,
               private userStoreService: UserStoreService,
-              private router: Router
+              private router: Router,
+              private user: UserFacade
   ) {
-    this.userStoreService.isAdmin$
+    this.user.isAdmin$
       .subscribe(isAdmin => this.editable = isAdmin)
 
   }

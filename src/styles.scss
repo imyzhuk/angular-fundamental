@@ -19,7 +19,7 @@ body {
 }
 
 .form {
-  padding: 15px 0;
+  padding: 15px 20px;
   margin: 20px 0;
   background: white;
 
@@ -83,4 +83,16 @@ body {
   &.button_login {
     margin-top: 10px;
   }
+}
+
+.link-auth {
+  text-decoration: none;
+
+  &:visited {
+    color: var(--primary-color);
+  }
+}
+
+app-input.field > div {
+  margin-bottom: 20px;
 }

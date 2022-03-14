@@ -1,9 +1,11 @@
 <form (submit)="onSubmit($event)" class="form">
   <h2 class="title">Login</h2>
-  <app-input [(value)]="email" name="Email" errorMessage="Field length must be no less 10!" placeholder="me@gmail.com"></app-input>
-  <app-input name="Password" type="password" [(value)]="password" placeholder="password"></app-input>
+  <app-input [(value)]="email" class="field" errorMessage="Field length must be no less 10!" name="Email"
+             placeholder="me@gmail.com"></app-input>
+  <app-input [(value)]="password" class="field" name="Password" placeholder="password" type="password"></app-input>
   <app-button text="Login" type="submit"></app-button>
   <p>If u don't have an account u can</p>
-  <p><a routerLink='/registration'>Registration</a></p>
+  <p><a class="link-auth" routerLink='/registration'>Registration</a></p>
   <div *ngIf="isLoading">...Loading</div>
+  <p *ngIf="error" class="error" style="margin: 20px; font-size: 20px">{{error}}</p>
 </form>

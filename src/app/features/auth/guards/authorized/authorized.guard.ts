@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {CanLoad, Route, Router, UrlSegment, UrlTree} from '@angular/router';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 import {AuthService} from "../../services/auth/auth.service";
+import {AuthFacade} from "../../../../auth/store/auth.facade";
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,10 @@ export class AuthorizedGuard implements CanLoad {
   isAuthorized: boolean = false;
 
   constructor(private auth: AuthService,
-              private router: Router
+              private router: Router,
+              private authFacade: AuthFacade
   ) {
-    this.auth.isAuthorized$.subscribe(isAuthorized => this.isAuthorized = isAuthorized);
+    this.authFacade.isAuthorized$.subscribe(isAuthorized => this.isAuthorized = isAuthorized);
   }
 
   canLoad(

@@ -1,10 +1,10 @@
-import {Component, Injectable, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CourseType} from "../../models/course-types";
 import {AuthorsService, AuthorsStoreService, CoursesService, CoursesStoreService} from "../../shared/services";
 import {Author} from "../../models/user-types";
-import {map, Observable, switchMap, tap} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
+import {map, switchMap} from "rxjs";
 import {UserStoreService} from "../user/services";
+import {UserFacade} from "../../user/store/user.facade";
 
 @Component({
   selector: 'app-courses',
@@ -19,11 +19,12 @@ export class CoursesComponent implements OnInit {
   editable: boolean = false
 
   constructor(
-              private coursesService: CoursesService,
-              private authorsService: AuthorsService,
-              private coursesStoreService: CoursesStoreService,
-              private authorsStoreService: AuthorsStoreService,
-              private userStore: UserStoreService
+    private coursesService: CoursesService,
+    private authorsService: AuthorsService,
+    private coursesStoreService: CoursesStoreService,
+    private authorsStoreService: AuthorsStoreService,
+    private userStore: UserStoreService,
+    private user: UserFacade
   ) {
     this.coursesStoreService.isLoading$.subscribe(isLoading => this.isLoading = isLoading);
     this.authorsStoreService.isLoading$.subscribe(isLoading => this.isLoading = isLoading);
@@ -46,7 +47,7 @@ export class CoursesComponent implements OnInit {
       )
       .subscribe(courses => this.courses = courses)
 
-    this.userStore.isAdmin$
+    this.user.isAdmin$
       .subscribe(isAdmin => this.editable = isAdmin)
 
   }

@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 import {UserStoreService} from "../../services";
+import {UserFacade} from "../../../../user/store/user.facade";
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,10 @@ export class AdminGuard implements CanActivate {
 
   constructor(
     private userStoreService: UserStoreService,
-    private router: Router
+    private router: Router,
+    private user: UserFacade
   ) {
-    this.userStoreService.isAdmin$
+    this.user.isAdmin$
       .subscribe(
         (isAdmin) => this.isAdmin = isAdmin
       )

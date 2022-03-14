@@ -1,10 +1,7 @@
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {EmailLengthValidator, EmailPatternValidator, LengthValidator} from "../../shared/directives";
-import {CoursesService} from "../../shared/services";
-import {AuthService} from "../auth/services/auth/auth.service";
-import {catchError, of} from "rxjs";
-import {Router} from "@angular/router";
+import {AuthFacade} from "../../auth/store/auth.facade";
 
 @Component({
   selector: 'app-registration',
@@ -12,9 +9,14 @@ import {Router} from "@angular/router";
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent {
-  form : FormGroup;
+  form: FormGroup;
   isRegistrated: boolean = false;
-  constructor(private auth: AuthService){
+  error: string | null = null
+
+  constructor(private auth: AuthFacade) {
+    this.auth.clearError();
+    this.auth.isRegistered$.subscribe(isRegistered => this.isRegistrated = isRegistered)
+    this.auth.getLoginErrorMessage$.subscribe(error => this.error = error)
     this.form = new FormGroup({
       name: new FormControl("", [
         Validators.required,
@@ -37,15 +39,6 @@ export class RegistrationComponent {
       name: this.form.value.name,
       password: this.form.value.password,
       email: this.form.value.email,
-    }).pipe(
-      catchError(err => of(err))
-    )
-      .subscribe(response => {
-        if(response?.successful || response?.error.successful){
-          this.isRegistrated = true;
-        } else {
-          alert(response.error.errors[0]);
-        }
-      });
+    })
   }
 }

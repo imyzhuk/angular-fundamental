@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {AuthService} from "../auth/services/auth/auth.service";
-import {catchError, of, tap} from "rxjs";
+import {Component, OnInit} from '@angular/core';
 import {SessionStorageService} from "../auth/services/session-storage/session-storage.service";
 import {Router} from "@angular/router";
+import {AuthFacade} from "../../auth/store/auth.facade";
 
 @Component({
   selector: 'app-login',
@@ -15,21 +14,24 @@ export class LoginComponent implements OnInit {
   password: string = "";
   isAuthorized: boolean = false;
   isLoading: boolean = false;
+  error: string | null = null;
 
 
-  constructor(private auth: AuthService,
-              private sessionStorageService: SessionStorageService,
-              private router: Router
-  ) { }
+  constructor(
+    private sessionStorageService: SessionStorageService,
+    private router: Router,
+    private auth: AuthFacade
+  ) {
+    this.auth.getLoginErrorMessage$.subscribe(error => this.error = error)
+  }
 
   ngOnInit(): void {
     this.auth.isAuthorized$.subscribe(isAuthorized => {
       this.isAuthorized = isAuthorized;
-      if(isAuthorized){
+      if (isAuthorized) {
         this.router.navigate([''])
       }
     });
-    this.auth.isLoading$.subscribe(isLoading => this.isLoading = isLoading);
   }
 
 

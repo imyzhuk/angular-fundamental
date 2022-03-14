@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "./features/auth/services/auth/auth.service";
 import {Router} from "@angular/router";
 import {AuthorsStoreService, CoursesStoreService} from "./shared/services";
 import {UserStoreService} from "./features/user/services";
+import {UserFacade} from "./user/store/user.facade";
+import {AuthFacade} from "./auth/store/auth.facade";
+import {SessionStorageService} from "./features/auth/services/session-storage/session-storage.service";
 
 @Component({
   selector: 'app-root',
@@ -21,26 +24,43 @@ export class AppComponent {
               private router: Router,
               private coursesStoreService: CoursesStoreService,
               private authorsStoreService: AuthorsStoreService,
-              private userStoreService: UserStoreService
-              ) {
-    this.coursesStoreService.isLoading$.subscribe(isLoading => this.isLoading = isLoading)
-    this.auth.isAuthorized$.subscribe(isAuthorized => this.isAuthorized = isAuthorized);
-    this.auth.name$.subscribe(name => this.name = name);
+              private userStoreService: UserStoreService,
+              public user: UserFacade,
+              public authFacade: AuthFacade,
+              private sessionStorageService: SessionStorageService
+  ) {
+    // this.auth.isAuthorized$.subscribe(isAuthorized => this.isAuthorized = isAuthorized);
+    // this.auth.name$.subscribe(name => this.name = name);
   }
 
-  ngOnInit(){
+  ngOnInit() {
+    this.user.getCurrentUser()
+    this.user.name$
+      .subscribe(name => this.name = name)
+    this.authFacade.isAuthorized$.subscribe(isAuthorized => {
+      this.isAuthorized = isAuthorized
+    })
     this.getAuthors();
     this.getCourses();
-    this.getUser();
+    // this.getUser();
   }
 
 
-  openHelpModal(){
+  openHelpModal() {
     this.isHelpModalOpened = true;
   }
 
-  clickLoginIcon(){
-    this.isAuthorized ? this.auth.logout() : this.router.navigate(['login'])
+  clickLoginIcon() {
+    this.isAuthorized
+      ? this.auth.logout()
+        .subscribe((response) => {
+          if (!response) {
+            this.authFacade.logout();
+            this.sessionStorageService.deleteToken()
+            this.router.navigate(['login']);
+          }
+        })
+      : this.router.navigate(['login'])
   }
 
   getCourses(){
